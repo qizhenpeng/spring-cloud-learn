@@ -16,5 +16,5 @@ logging:
   level:
     com.example.product.service.UserService: debug
 ribbon:
-  ReadTimeout: 10000
-  ConnectTimeout: 10000
+  ReadTimeout: 1000
+  ConnectTimeout: 1000

@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: hystrix-service
+server:
+  port: 8091
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/,http://${eureka.instance.hostname}:8762/eureka/
+logging:
+  level:
+    com.example.hystrix.service.FeignUserService: debug
+ribbon:
+  ReadTimeout: 2000
+  ConnectTimeout: 2000
+
+feign:
+  hystrix:
+    enabled: true
+#hystrix超时时间要超过ribbon的时间，如果feign是两个实例，那么4秒后就超时了。不会触发hystrix。
+#所以经验上，如果feign是4个实例，每个超时时间是2秒，设置hystrix为5秒就行了。如果是2个实例，设置3秒就够了
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000

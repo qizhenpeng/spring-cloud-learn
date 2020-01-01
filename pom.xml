@@ -24,6 +24,7 @@
         <module>eureka-server</module>
         <module>user-service</module>
         <module>product-service</module>
+        <module>hystrix-server</module>
     </modules>
 
 
