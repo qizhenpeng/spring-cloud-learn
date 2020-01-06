@@ -25,6 +25,7 @@
         <module>user-service</module>
         <module>product-service</module>
         <module>hystrix-server</module>
+        <module>zuul-server</module>
     </modules>
 
 

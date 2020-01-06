@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: zuul-server
+server:
+  port: 5555
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+#基础配置
+zuul:
+  routes:
+    user-service:
+      path: /user-service/**
+      serviceId: user-service
+  ignored-services: product-service #忽略的服务，防止服务侵入
+  ignored-patterns: /**/div/** #忽略的接口，屏蔽接口
+  retryable: true
+ribbon:
+  ReadTimeout: 2000
+  ConnectTimeout: 2000
+  MaxAutoRetries: 1 #同一个服务重试的次数(除去首次)
+  MaxAutoRetriesNextServer: 1  #切换相同服务数量
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+#========================================
+#简化配置
+#zuul:
+#  routes:
+#    user-service: /user-service/**
+#--------------------------------
+#zuul:
+#  routes:
+#    user-service:
+#这三种效果一样
+# =======================================
+#单实例直接URL映射
+#zuul:
+#  routes:
+#    user-service:
+#      path: /user-service/**
+#      url: http://localhost:8081
+#==========================================
+#多实例负载均衡
+#zuul:
+#  routes:
+#    user-service:
+#      path: /user-service/**
+#      serviceId: user-service
+#ribbon:
+#  eureka:
+#    enabled: false #禁用ribbon负载均衡
+#user-service:
+#  listOfServers: localhost:8081,localhost:8082
